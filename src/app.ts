@@ -1,6 +1,6 @@
 import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const app: Application = express();
 
@@ -24,9 +24,8 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
     // res.send("Hello World!");
     // next();
-  });
 
-  // creating an interface
+      // creating an interface
     interface IUser {
         id: string;
         role: "student" | "teacher";
@@ -61,7 +60,7 @@ const userSchema = new Schema<IUser>({
         firstName: {
             type: String,
             required: true
-        }, 
+        },
         middleName: {
             type: String,
             required: true
@@ -100,6 +99,33 @@ const userSchema = new Schema<IUser>({
         type: String,
         required: true
     }
-  })
+});
+
+const User = model<IUser>("User", userSchema);
+
+const createUserToDB = async () => {
+    const user = new User({
+        id: "9090",
+        role: "student",
+        password: "Johnwick",
+        name: {
+            firstName: "Mr.",
+            middleName: "Sohel",
+            lastName: "Rana",
+        },
+        dateOfBirth: "14-August-1998",
+        gender: "male",
+        email: "mizanbd.eee@gmail.com",
+        contactNo: "01719402933",
+        emergencyContactNo: "01723100818",
+        presentAddress: "Vodra, Rajshahi Sadar, Rajshahi, Bangladesh",
+        permanentAddress: "Vill: Dighirpar, Post: Palsha, Thana: Atrai, District: Naogaon, Bangladesh"
+    });
+    await user.save();
+    console.log(user);
+};
+
+createUserToDB();
+  });
 
 export default app;

@@ -1,6 +1,8 @@
+import {IUser} from "./app/modules/user/user.interface";
 import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { Schema, model } from "mongoose";
+import { User } from "./app/modules/user/user.model";
 
 const app: Application = express();
 
@@ -26,92 +28,16 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     // next();
 
       // creating an interface
-    interface IUser {
-        id: string;
-        role: "student" | "teacher";
-        password: string;
-        name: {
-            firstName: string;
-            middleName?: string;
-            lastName: string;
-        };
-        dateOfBirth?: string;
-        gender: "male" | "female";
-        email?: string;
-        contactNo: string;
-        emergencyContactNo: string;
-        presentAddress: string;
-        permanentAddress: string;
-    }
-
-  // creating a schema using interface
-const userSchema = new Schema<IUser>({
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    role: {
-        type: String,
-        required: true,
-        enum: ["student", "teacher"]
-    },
-    name: {
-        firstName: {
-            type: String,
-            required: true
-        },
-        middleName: {
-            type: String,
-            required: true
-        },
-        lastName: {
-            type: String,
-            required: true
-        }
-    },
-    dateOfBirth: {
-        type: String,
-        required: false
-    },
-    gender: {
-        type: String,
-        required: true,
-        enum: ["male", "female"]
-    },
-    email: {
-        type: String,
-        required: false
-    },
-    contactNo: {
-        type: String,
-        required: true
-    },
-    emergencyContactNo: {
-        type: String,
-        required: true
-    },
-    presentAddress: {
-        type: String,
-        required: true
-    },
-    permanentAddress: {
-        type: String,
-        required: true
-    }
-});
-
-const User = model<IUser>("User", userSchema);
 
 const createUserToDB = async () => {
     const user = new User({
-        id: "9090",
-        role: "student",
-        password: "Johnwick",
+        id: "9092",
+        role: "teacher",
+        password: "123456",
         name: {
-            firstName: "Mr.",
-            middleName: "Sohel",
-            lastName: "Rana",
+            firstName: "Mrs.",
+            middleName: "Rahima",
+            lastName: "Khatun",
         },
         dateOfBirth: "14-August-1998",
         gender: "male",
@@ -129,3 +55,15 @@ createUserToDB();
   });
 
 export default app;
+
+// There are two types of pattern for managing backend codes
+// 1. MVC (Model, View, Controller) pattern.
+// 2. Modular pattern
+
+/*
+Interface        => interface.ts
+Schema, Model    => model.ts
+route
+router function  => controller.ts
+Database Query   => service.ts
+*/

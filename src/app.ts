@@ -27,3 +27,5 @@ route
 router function  => controller.ts
 Database Query   => service.ts
 */
+
+// save - save() method --> Method --> data validate --> schema  
